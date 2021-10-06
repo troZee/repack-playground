@@ -9,6 +9,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Button,
 } from 'react-native';
 
 import {
@@ -53,10 +54,13 @@ const App: () => Node = ({navigation}) => {
   useEffect(() => {
     (async function () {
       const allInstalledApps = await getAllInstalledApps();
-      const allApps = appArrayList.map(item => ({
-        ...item,
-        installed: allInstalledApps.includes(item),
-      }));
+      const allApps = appArrayList.map(item => {
+        return {
+          ...item,
+          installed: allInstalledApps.includes(item.name),
+        };
+      });
+
       setApps(allApps);
       setLoading(false);
     })();
@@ -101,6 +105,15 @@ const App: () => Node = ({navigation}) => {
               </View>
             ))}
           </ScrollView>
+          <Section title="Default Lazy app">
+            Click the button to display installed app by default
+          </Section>
+          <Button
+            onPress={() => {
+              navigation.navigate('DefaultApp');
+            }}
+            title="open default app"
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

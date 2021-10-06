@@ -23,4 +23,10 @@ const appArrayList = Object.keys(appObjectList).map(key => ({
   name: key,
 }));
 
-export {appObjectList, appArrayList};
+const defaultApp = {
+  icon: 'https://cdn3.iconfinder.com/data/icons/animal-emoji/50/Sloth-256.png',
+  bundle: async () =>
+    await import(/* webpackChunkName: defaultapp */ '../defaultapp'),
+};
+
+export {appObjectList, appArrayList, defaultApp};
