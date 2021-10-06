@@ -18,10 +18,24 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {appArrayList, appObjectList} from './appList';
-import {getAllInstalledApps, isAppInstalled} from './helpers';
+import {getAllInstalledApps, install, isAppInstalled} from './helpers';
 
 const MiniApp: () => Node = ({navigation, route}) => {
-  return null;
+  const [appContent, setAppContent] = useState(null);
+  const {appName} = route.params;
+
+  useEffect(() => {
+    (async function () {
+      try {
+        const bundle = await install(appName, appObjectList[appName].bundle);
+        setAppContent(React.createElement(bundle.default, {}));
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
+
+  return appContent;
 };
 
 const styles = StyleSheet.create({

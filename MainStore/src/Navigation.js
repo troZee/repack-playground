@@ -13,15 +13,6 @@ export default function Navigation() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={App} />
         <Stack.Screen name="MiniApp" component={MiniApp} />
-        {/* {appArrayList.map(app => {
-          return (
-            <Stack.Screen
-              key={app.name}
-              name={app.name}
-              component={app.bundle}
-            />
-          );
-        })} */}
       </Stack.Navigator>
     </NavigationContainer>
   );

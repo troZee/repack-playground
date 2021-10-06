@@ -83,7 +83,7 @@ const App: () => Node = ({navigation}) => {
                 key={app.icon}>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.push(app.name);
+                    navigation.navigate('MiniApp', {appName: app.name});
                   }}>
                   <View
                     style={{
