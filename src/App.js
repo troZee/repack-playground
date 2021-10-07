@@ -115,6 +115,7 @@ const App: () => Node = ({navigation}) => {
             title="open default app"
           />
         </View>
+        <Text>Change something</Text>
       </ScrollView>
     </SafeAreaView>
   );
