@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MainStore</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">yTbm0O3t8dheb8L-mNGdErs0G9OLu_TkFTSlc</string>
 </resources>
