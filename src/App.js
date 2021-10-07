@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import type {Node} from 'react';
 import {
   TouchableOpacity,
@@ -10,16 +10,12 @@ import {
   useColorScheme,
   View,
   Button,
+  Alert,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {appArrayList, appObjectList} from './appList';
-import {getAllInstalledApps, isAppInstalled} from './helpers';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {appArrayList} from './appList';
+import AppsContext from './AppsContext';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -48,54 +44,61 @@ const Section = ({children, title}): Node => {
 };
 
 const App: () => Node = ({navigation}) => {
-  const [isLoading, setLoading] = useState(true);
-  const [apps, setApps] = useState([]);
+  const {installedApps, installApp, uninstallApp} =
+    React.useContext(AppsContext);
 
-  useEffect(() => {
-    (async function () {
-      const allInstalledApps = await getAllInstalledApps();
-      const allApps = appArrayList.map(item => {
-        return {
-          ...item,
-          installed: allInstalledApps.includes(item.name),
-        };
-      });
+  const apps = React.useMemo(() => {
+    return appArrayList.map(item => {
+      return {
+        ...item,
+        installed: installedApps.includes(item.name),
+      };
+    });
+  }, [installedApps]);
 
-      setApps(allApps);
-      setLoading(false);
-    })();
-  }, []);
-
-  if (isLoading) {
-    return <Text>Loading ....</Text>;
-  }
   return (
-    <SafeAreaView style={{flex: 1, paddingHorizontal: 24}}>
-      <ScrollView contentInsetAdjustmentBehavior="automatic" style={{flex: 1}}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View>
           <Section title="Apps">
             Choose the one app, that you would like to install
           </Section>
           <ScrollView horizontal>
             {apps.map(app => (
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginRight: 16,
-                }}
-                key={app.icon}>
+              <View style={styles.itemContainer} key={app.icon}>
                 <TouchableOpacity
+                  onLongPress={() => {
+                    if (app.installed) {
+                      Alert.alert('Mini Apps', 'Do you want to uninstall ?', [
+                        {
+                          text: 'Cancel',
+                          onPress: () => {},
+                          style: 'cancel',
+                        },
+                        {
+                          text: 'Yes',
+                          style: 'destructive',
+                          onPress: () => {
+                            uninstallApp(app);
+                          },
+                        },
+                      ]);
+                    }
+                  }}
                   onPress={() => {
-                    navigation.navigate('MiniApp', {appName: app.name});
+                    if (app.installed) {
+                      navigation.navigate('MiniApp', {appName: app.name});
+                    } else {
+                      installApp(app);
+                    }
                   }}>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
+                  <View style={styles.imageContainer}>
                     <Image
-                      style={{width: 60, height: 60, opacity: 0.5}}
+                      style={{
+                        width: 60,
+                        height: 60,
+                        opacity: app.installed ? 1 : 0.5,
+                      }}
                       source={{uri: app.icon}}
                     />
                     <Text>{app.name}</Text>
@@ -121,6 +124,7 @@ const App: () => Node = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  container: {flex: 1, paddingHorizontal: 24},
   sectionContainer: {
     marginTop: 32,
   },
@@ -132,6 +136,15 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     fontSize: 18,
     fontWeight: '400',
+  },
+  itemContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 16,
+  },
+  imageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   highlight: {
     fontWeight: '700',

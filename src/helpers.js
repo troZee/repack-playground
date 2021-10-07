@@ -23,10 +23,6 @@ const uninstall = async name => {
   }
 };
 
-const isAppInstalled = name => {
-  //   return storage.getBoolean(name);
-};
-
 const getAllInstalledApps = async () => {
   try {
     return await AsyncStorage.getAllKeys();
@@ -35,4 +31,4 @@ const getAllInstalledApps = async () => {
   }
 };
 
-export {install, uninstall, isAppInstalled, getAllInstalledApps};
+export {install, uninstall, getAllInstalledApps};
