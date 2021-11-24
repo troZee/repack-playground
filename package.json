@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "start": "react-native webpack-start",
     "bundle:ios": "react-native webpack-bundle --platform ios --entry-file index.js --bundle-output ./dist/index.bundle --dev=false",
-    "bundle:android": "react-native webpack-bundle --platform ios --entry-file index.js --bundle-output ./dist/index.bundle --dev=false",
+    "bundle:android": "react-native webpack-bundle --platform android --entry-file index.js --bundle-output ./dist/index.bundle --dev=false",
     "webpack": "PLATFORM=ios webpack -c webpack.config.js"
   },
   "dependencies": {
