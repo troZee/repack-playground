@@ -3,12 +3,13 @@ import {Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import App from './App';
-import {appArrayList, appObjectList} from './appList';
+import {appArrayList, appObjectList, remoteApp} from './appList';
 import MiniApp from './MiniApp';
 import {getAllInstalledApps, install, uninstall} from './helpers';
 import AppsContext from './AppsContext';
 
 const LazyDefaultApp = React.lazy(() => import('../defaultapp'));
+const LazyRemoteApp = React.lazy(remoteApp.bundle);
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +62,16 @@ export default function Navigation() {
     ),
     [],
   );
+
+  const RemoteApp = React.useCallback(
+    () => (
+      <React.Suspense fallback={<Text>Loading...</Text>}>
+        <LazyRemoteApp />
+      </React.Suspense>
+    ),
+    [],
+  );
+
   return (
     <AppsContext.Provider
       value={{
@@ -74,6 +85,7 @@ export default function Navigation() {
           <Stack.Screen name="Home" component={App} />
           <Stack.Screen name="MiniApp" component={MiniApp} />
           <Stack.Screen name="DefaultApp" component={DefaultApp} />
+          <Stack.Screen name="RemoteApp" component={RemoteApp} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppsContext.Provider>

@@ -117,6 +117,15 @@ const App: () => Node = ({navigation}) => {
             }}
             title="open default app"
           />
+          <Section title="Remote Lazy app">
+            Click the button fetch remote bundle
+          </Section>
+          <Button
+            onPress={() => {
+              navigation.navigate('RemoteApp');
+            }}
+            title="open remote app"
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
