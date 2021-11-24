@@ -15,7 +15,11 @@ const version = 'v1';
 ChunkManager.configure({
   storage: AsyncStorage,
   resolveRemoteChunk: async chunkId => {
-    Alert.alert('asd', 'resolveRemoteChunk');
+    //Alert.alert('asd', JSON.stringify(Object.keys(global), null, 2));
+    Alert.alert(
+      'asd',
+      `${chunkId}, ${global.__CHUNKS__?.local?.includes(chunkId)}`,
+    );
     const url = `https://raw.githubusercontent.com/troZee/repack-bundle-cdn/main/${version}/${Platform.OS}/remote/${chunkId}`;
     return {
       url,
