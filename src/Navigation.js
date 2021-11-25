@@ -7,9 +7,10 @@ import {appArrayList, appObjectList, remoteApp} from './appList';
 import MiniApp from './MiniApp';
 import {getAllInstalledApps, install, uninstall} from './helpers';
 import AppsContext from './AppsContext';
+import {ChunkManager} from '@callstack/repack/client';
+import {RemoteApp} from './RemoteApp';
 
 const LazyDefaultApp = React.lazy(() => import('../defaultapp'));
-const LazyRemoteApp = React.lazy(remoteApp.bundle);
 
 const Stack = createNativeStackNavigator();
 
@@ -43,12 +44,12 @@ export default function Navigation() {
 
   React.useEffect(() => {
     (async function () {
-      const allInstalledApps = await getAllInstalledApps();
-      setInstalledApps([...installedApps, ...allInstalledApps]);
-      await asyncForEach(allInstalledApps, async function (item, index, array) {
-        const bundle = await appObjectList[item].bundle();
-        setExports({...exports, [item]: bundle});
-      });
+      // const allInstalledApps = await getAllInstalledApps();
+      // setInstalledApps([...installedApps, ...allInstalledApps]);
+      // await asyncForEach(allInstalledApps, async function (item, index, array) {
+      //   const bundle = await appObjectList[item].bundle();
+      //   setExports({...exports, [item]: bundle});
+      // });
     })();
     //do it only once
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,15 +59,6 @@ export default function Navigation() {
     () => (
       <React.Suspense fallback={<Text>Loading...</Text>}>
         <LazyDefaultApp />
-      </React.Suspense>
-    ),
-    [],
-  );
-
-  const RemoteApp = React.useCallback(
-    () => (
-      <React.Suspense fallback={<Text>Loading...</Text>}>
-        <LazyRemoteApp />
       </React.Suspense>
     ),
     [],
