@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
 import {Button, View, Text} from 'react-native';
 import {ChunkManager} from '@callstack/repack/client';
-
-const RemoteChunkId = 'remoteapp';
-const Remote = React.lazy(() =>
-  import(/* webpackChunkName: "remoteapp" */ '../remoteapp'),
-);
+import Remote from './remote';
 
 export const RemoteApp = () => {
   const [isPreloaded, setIsPreloaded] = useState(false);
@@ -27,7 +23,7 @@ export const RemoteApp = () => {
             title={isPreloaded ? 'Preloaded' : 'Preload chunk'}
             disabled={isPreloaded}
             onPress={async () => {
-              await ChunkManager.preloadChunk(RemoteChunkId);
+              await ChunkManager.preloadChunk('remoteapp');
               setIsPreloaded(true);
             }}
           />
@@ -38,7 +34,7 @@ export const RemoteApp = () => {
       <Button
         title={'Invalidate'}
         onPress={async () => {
-          await ChunkManager.invalidateChunks([RemoteChunkId]);
+          await ChunkManager.invalidateChunks(['remoteapp']);
           setIsPreloaded(false);
         }}
       />

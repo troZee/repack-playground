@@ -29,11 +29,11 @@ const defaultApp = {
     await import(/* webpackChunkName: 'defaultapp' */ '../defaultapp'),
 };
 
-const remoteApp = {
-  icon: 'https://cdn2.iconfinder.com/data/icons/scenarium-vol-1-2/128/016_cloud_connections_export_backup_network_sharing-256.png',
-  bundle: async () =>
-    await import(/* webpackChunkName: 'remoteapp' */ '../remoteapp'),
-  remoteChunkId: 'remoteapp',
-};
+// const remoteApp = {
+//   icon: 'https://cdn2.iconfinder.com/data/icons/scenarium-vol-1-2/128/016_cloud_connections_export_backup_network_sharing-256.png',
+//   bundle: async () =>
+//     await import(/* webpackChunkName: 'remoteapp' */ '../remoteapp'),
+//   remoteChunkId: 'remoteapp',
+// };
 
-export {appObjectList, appArrayList, defaultApp, remoteApp};
+export {appObjectList, appArrayList, defaultApp};

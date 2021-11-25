@@ -3,7 +3,7 @@ import {Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import App from './App';
-import {appArrayList, appObjectList, remoteApp} from './appList';
+import {appArrayList, appObjectList} from './appList';
 import MiniApp from './MiniApp';
 import {getAllInstalledApps, install, uninstall} from './helpers';
 import AppsContext from './AppsContext';
